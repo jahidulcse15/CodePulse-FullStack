@@ -1,0 +1,272 @@
+<div class="container-fluid px-3 px-md-4 px-lg-5 py-4">
+
+    <!-- Page Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <h2 class="fw-bold text-dark mb-0">Categories</h2>
+                <span class="badge rounded-pill text-bg-primary">
+                    Category Management
+                </span>
+            </div>
+
+            <p class="text-secondary mb-0">
+                Manage and organize your categories
+            </p>
+        </div>
+
+        <a
+            routerLink="/admin/categories/add"
+            class="btn btn-primary px-4 py-2 fw-semibold shadow-sm">
+
+            <i class="bi bi-plus-lg me-2"></i>
+            Add Category
+
+        </a>
+
+    </div>
+
+
+    <!-- Loading State -->
+    @if (isLoding()) {
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-body text-center py-5">
+
+                <div
+                    class="spinner-border text-primary mb-3"
+                    style="width: 2.5rem; height: 2.5rem;"
+                    role="status">
+
+                    <span class="visually-hidden">
+                        Loading...
+                    </span>
+
+                </div>
+
+                <h6 class="fw-semibold text-dark">
+                    Loading categories...
+                </h6>
+
+                <p class="text-secondary mb-0 small">
+                    Please wait while we fetch the latest data.
+                </p>
+
+            </div>
+
+        </div>
+
+    }
+
+
+    <!-- Error State -->
+    @else {
+
+        @if (isError()) {
+
+            <div
+                class="alert alert-danger border-0 shadow-sm rounded-4 d-flex align-items-start gap-3"
+                role="alert">
+
+                <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+
+                <div>
+                    <h6 class="fw-bold mb-1">
+                        Unable to load categories
+                    </h6>
+
+                    <p class="mb-0 small">
+                        Something went wrong while fetching the category data.
+                        Please try again later.
+                    </p>
+                </div>
+
+            </div>
+
+        }
+
+
+        <!-- Category Content -->
+        @else {
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+
+                <!-- Card Header -->
+                <div class="card-header bg-white border-0 px-3 px-md-4 py-3">
+
+                    <div
+                        class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+
+                        <div>
+                            <h5 class="fw-bold mb-1">
+                                All Categories
+                            </h5>
+
+                            <p class="text-secondary small mb-0">
+                                List of available categories
+                            </p>
+                        </div>
+
+                        <span class="badge bg-light text-dark border px-3 py-2">
+                            <i class="bi bi-list-ul me-1"></i>
+                            {{ value()?.length ?? 0 }} Categories
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Table -->
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+
+                            <tr>
+
+                                <th
+                                    scope="col"
+                                    class="px-3 px-md-4 py-3 text-secondary small fw-bold">
+                                    Id
+                                </th>
+
+                                <th
+                                    scope="col"
+                                    class="py-3 text-secondary small fw-bold">
+                                    CATEGORY NAME
+                                </th>
+
+                                <th
+                                    scope="col"
+                                    class="py-3 text-secondary small fw-bold">
+                                    URL HANDLE
+                                </th>
+
+                                <th
+                                    scope="col"
+                                    class="py-3 px-3 px-md-4 text-end text-secondary small fw-bold">
+                                    ACTIONS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            @for (category of value(); track category.id) {
+
+                                <tr>
+
+                                    <!-- ID -->
+                                    <td class="px-3 px-md-4 py-3">
+
+                                        <span
+                                            class="badge bg-light text-dark border rounded-pill px-3">
+                                            #{{ category.id }}
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Name -->
+                                    <td class="py-3">
+
+                                        <div
+                                            class="d-flex align-items-center gap-3">
+
+                                            <div
+                                                class="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center"
+                                                style="width: 40px; height: 40px;">
+
+                                                <i class="bi bi-folder-fill"></i>
+
+                                            </div>
+
+                                            <div>
+
+                                                <div class="fw-semibold text-dark">
+                                                    {{ category.name }}
+                                                </div>
+
+                                                <small class="text-secondary">
+                                                    Product Category
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <!-- URL -->
+                                    <td class="py-3">
+
+                                        <span
+                                            class="badge bg-light text-primary border fw-normal px-3 py-2">
+
+                                            <i class="bi bi-link-45deg me-1"></i>
+
+                                            {{ category.urlHandle }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- Actions -->
+                                    <td class="text-end px-3 px-md-4 py-3">
+
+                                        <div
+                                            class="d-flex justify-content-end gap-2">
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-primary px-3">
+
+                                                <i class="bi bi-pencil-square me-1"></i>
+                                                <span class="d-none d-sm-inline">
+                                                    Edit
+                                                </span>
+
+                                            </button>
+
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-danger px-3">
+
+                                                <i class="bi bi-trash3 me-1"></i>
+                                                <span class="d-none d-sm-inline">
+                                                    Delete
+                                                </span>
+
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        }
+
+    }
+
+</div>
