@@ -9,10 +9,22 @@ import { CategoryService } from '../services/category-service';
   styleUrl: './category-list.css'
 })
 export class CategoryList {
-   private categoryService=inject(CategoryService);
-   private categoryServiceRef=this.categoryService.getAllCategories();
+  private categoryService = inject(CategoryService);
+  private getAllCategoriesRef = this.categoryService.getAllCategories();
 
-   isLoding=this.categoryServiceRef.isLoading;
-   isError=this.categoryServiceRef.error;
-   value=this.categoryServiceRef.value;
+  isLoading = this.getAllCategoriesRef.isLoading;
+  isError = this.getAllCategoriesRef.error;
+  value = this.getAllCategoriesRef.value;
+
+  deleteCategory(id: string) {
+    this.categoryService.deleteCategory(id).subscribe({
+      next: () => {
+        console.log('Category deleted successfully');
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Delete failed:', error);
+      }
+    });
+  }
 }
