@@ -19,7 +19,7 @@ namespace CodePulse.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto request)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryRequestDto request)
         {
             var category = new Category
             {
@@ -60,16 +60,71 @@ namespace CodePulse.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult>GetById(Guid id)
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult>GetById([FromRoute] Guid id)
         {
             var category=await _categoryRepository.FindByIdAsync(id);
+
+            if(category is null)
+            {
+                return NotFound();
+            }
 
             var response = new CategoryDto
             {
                 Id=category.Id,
                 Name=category.Name,
                 UrlHandle=category.UrlHandle
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> EditCategory([FromRoute] Guid id, [FromBody] UpdateCategoryRequestDto updateCategoryRequestDto)
+        {
+            var category = new Category
+            {
+                Id=id,
+                Name=updateCategoryRequestDto.Name,
+                UrlHandle=updateCategoryRequestDto.UrlHandle
+            };
+
+            var response = await _categoryRepository.UpdateAsync(category);
+
+            if (response == null)
+            {
+                return NotFound();
+            }
+
+            var responseDto = new CategoryDto
+            {
+                Id=category.Id,
+                Name = response.Name,
+                UrlHandle=response.UrlHandle
+            };
+
+            return Ok(responseDto);
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
+        {
+            var category = await _categoryRepository.DeleteAsync(id);
+
+            if (category == null)
+            {
+                return BadRequest("This Category is not found.");
+            }
+
+            var response = new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name,
+                UrlHandle = category.UrlHandle
             };
 
             return Ok(response);
