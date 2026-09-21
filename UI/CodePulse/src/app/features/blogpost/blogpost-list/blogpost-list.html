@@ -1,0 +1,43 @@
+
+<div class="container">
+    <h1 class="mt-3">Blog Post List</h1>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a class="btn btn-primary" routerLink="/admin/blogposts/add">
+            Add Blog Post
+        </a>
+    </div>
+
+    <div class="mt-3">
+
+        @if(isLoading()){
+            <p>Loading....</p>
+        }@else{
+            @if(error()){
+                <p>there has been error.</p>
+            }
+            @else{
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>shortDescription</th>
+                            <th>isVisible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(item of response();track item.id){
+                            <tr>
+                                <td>{{item.title}}</td>
+                                <td>{{item.shortDescription}}</td>
+                                <td>{{item.isVisible}}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        }
+
+    </div>
+
+</div>
