@@ -1,3 +1,4 @@
+using CodePulse.API.Controllers;
 using CodePulse.API.Data;
 using CodePulse.API.Repositories.Implementation;
 using CodePulse.API.Repositories.Interface;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options=>{
 });
 
 builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 
 builder.Services.AddCors(options =>
 {
