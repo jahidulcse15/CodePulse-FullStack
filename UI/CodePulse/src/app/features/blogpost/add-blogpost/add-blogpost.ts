@@ -5,6 +5,7 @@ import { AddBlogPostRequest } from '../models/blogpost-models';
 import { form } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { MarkdownComponent } from 'ngx-markdown';
+import { CategoryService } from '../../category/services/category-service';
 
 @Component({
   imports: [ReactiveFormsModule,MarkdownComponent],
@@ -16,7 +17,11 @@ import { MarkdownComponent } from 'ngx-markdown';
 export class AddBlogpost {
 
   blogpostService=inject(BlogPostService)
+  categoryService=inject(CategoryService);
   router=inject(Router);
+
+  private categoryResourseRef=this.categoryService.getAllCategories();
+  categoryResonse=this.categoryResourseRef.value;
 
   addBlogPostForm=new FormGroup({
     title:new FormControl<string>('',{
@@ -52,6 +57,7 @@ export class AddBlogpost {
       
     }),
 
+    categories:new FormControl<string[]>([])
 
   });
 
@@ -66,7 +72,8 @@ export class AddBlogpost {
        featureImageUrl:formRawValue.featureImageUrl,
        isVisible:formRawValue.isVisible,
        urlHandle:formRawValue.urlHandle,
-       publishedDate:new Date(formRawValue.publishedDate)
+       publishedDate:new Date(formRawValue.publishedDate),
+       categories:formRawValue.categories ?? []
 
     };
 
