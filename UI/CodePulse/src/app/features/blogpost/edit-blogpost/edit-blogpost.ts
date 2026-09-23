@@ -6,9 +6,11 @@ import { CategoryService } from '../../category/services/category-service';
 import { UpdateBlogPostRequest } from '../models/blogpost-models';
 import { from } from 'rxjs';
 import { Router } from '@angular/router';
+import { ImageSelector } from '../../../shared/components/image-selector/image-selector';
+import { ImageSelectorService } from '../../../shared/services/image-selector-service';
 
 @Component({
-  imports: [ReactiveFormsModule,MarkdownComponent],
+  imports: [ReactiveFormsModule,MarkdownComponent,ImageSelector],
   selector: 'app-edit-blogpost',
   styleUrl: './edit-blogpost.css',
   templateUrl: './edit-blogpost.html',
@@ -18,6 +20,7 @@ export class EditBlogpost {
 
   categoryService=inject(CategoryService);
   blogPostService=inject(BlogPostService);
+  imageSelectorService=inject(ImageSelectorService);
   router=inject(Router);
 
   private blogPostRef=this.blogPostService.getBlogPostById(this.id);
@@ -123,6 +126,10 @@ export class EditBlogpost {
         }
       })
     }
+  }
+
+  openImageSelector(){
+     this.imageSelectorService.displayImageSelector();
   }
 
 }

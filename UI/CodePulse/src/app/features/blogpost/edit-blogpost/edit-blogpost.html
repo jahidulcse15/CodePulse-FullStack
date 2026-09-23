@@ -32,7 +32,9 @@
         </div>
 
          <div class="mb-3">
-            <label class="form-label">Feature Image URL</label>
+            <label class="form-label">Feature Image URL
+                <button (click)="openImageSelector()" class="btn btn-light" type="button">Select Images</button>
+            </label>
 
             @if(editBlogPostForm.controls.featureImageUrl.getRawValue()){
                 <div>
@@ -82,5 +84,8 @@
             <button type="submit" class="btn btn-danger" (click)="onDelete()">Delete</button>
         </div>
     </form>
+<br>
 
-</div><br><br>
+    <app-image-selector></app-image-selector>
+
+

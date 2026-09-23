@@ -1,0 +1,35 @@
+
+@if(showImageSelector()){
+    <div class="image-selector-container">
+        <button (click)="hideImageSelector()" style="position: fixed;top: 10px;right: 10px;" type="button" class="btn btn-light">x</button>
+        <div class="card h-100">
+                <div class="card-header">
+                    <h1 class="card-title">Images</h1>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-md-row flex-sm-col flex-wrap">
+                        <div class="col-8 p-4">
+
+                        </div>
+                        <div class="col-4 p-4 bg-light">
+                            <h3>Upload Image</h3>
+                            <form [formGroup]="imageSelectorUploadGroup" (ngSubmit)="onSubmit()">
+                                <div class="mt-3">
+                                    <input (change)="onFileSelected($event)" type="file" class="form-control">
+                                </div>
+                                <div class="mt-3">
+                                    <input formControlName="name" type="text" class="form-control" placeholder="file-name">
+                                </div>
+                                <div class="mt-3">
+                                    <input formControlName="title" type="text" class="form-control" placeholder="title">
+                                </div>
+                                <div class="mt-3">
+                                    <button class="btn btn-dark" type="submit">Dark</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div><br>
+}
