@@ -1,6 +1,7 @@
 ﻿using CodePulse.API.Models.Domain;
 using CodePulse.API.Models.DTO;
 using CodePulse.API.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,7 @@ namespace CodePulse.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Writer")]
         public async Task<IActionResult> CreateBlogPost([FromBody] CreateBlogPostRequestDto request)
         {
             var blogPost = new BlogPost
@@ -144,8 +146,44 @@ namespace CodePulse.API.Controllers
         }
 
 
+        [HttpGet]
+        [Route("{urlHandle}")]
+        public async Task<IActionResult> GetBlogPostbyUrlHandle([FromRoute] string urlHandle)
+        {
+            var item = await _blogPostRepository.GetByUrlHandle(urlHandle);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            var response = new BlogPostDto
+            {
+                Id = item.Id,
+                Title = item.Title,
+                ShortDescription = item.ShortDescription,
+                Content = item.Content,
+                FeatureImageUrl = item.FeatureImageUrl,
+                Author = item.Author,
+                UrlHandle = item.UrlHandle,
+                PublishedDate = item.PublishedDate,
+                IsVisible = item.IsVisible,
+                Categories = item.Categories.Select(c => new CategoryDto
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    UrlHandle = c.UrlHandle
+                }).ToList()
+            };
+
+            return Ok(response);
+        }
+
+
+
         [HttpPut]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> UpdateBlogPostById([FromRoute] Guid id, [FromBody] UpdateBlogPostRequestDto request)
         {
             var blogPost = new BlogPost
@@ -206,6 +244,7 @@ namespace CodePulse.API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> DeleteBlogPost([FromRoute] Guid id)
         {
             var blogPosts = await _blogPostRepository.DeleteAsync(id);

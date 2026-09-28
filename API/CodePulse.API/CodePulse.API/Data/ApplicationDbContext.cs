@@ -1,4 +1,5 @@
 ﻿using CodePulse.API.Models.Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodePulse.API.Data
