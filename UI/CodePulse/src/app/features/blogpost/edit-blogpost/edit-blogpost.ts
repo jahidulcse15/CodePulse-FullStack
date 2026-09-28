@@ -132,4 +132,14 @@ export class EditBlogpost {
      this.imageSelectorService.displayImageSelector();
   }
 
+
+  selectedImageEffectRef=effect(()=>{
+    const imageSelectedUrl=this.imageSelectorService.selectedImage();
+    if(imageSelectedUrl){
+      this.editBlogPostForm.patchValue({
+        featureImageUrl:imageSelectedUrl
+      });
+    }
+  });
+  
 }

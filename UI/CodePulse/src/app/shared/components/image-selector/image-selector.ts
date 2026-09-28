@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { ImageSelectorService } from '../../services/image-selector-service';
 import { FormControl, FormGroup, MaxValidator, ReactiveFormsModule, Validators } from '@angular/forms';
 import { validate } from '@angular/forms/signals';
 import { Conditional } from '@angular/compiler';
+import { BlogImage } from '../../models/image.models';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -14,6 +15,12 @@ export class ImageSelector {
   private imageSelectorService=inject(ImageSelectorService);
   
   showImageSelector=this.imageSelectorService.ShowImageSelector.asReadonly();
+  id=signal<string|undefined>(undefined);
+  imagesRef=this.imageSelectorService.getAllImages(this.id);
+  isLoading=this.imagesRef.isLoading;
+  images=this.imagesRef.value;
+
+ 
 
   imageSelectorUploadGroup=new FormGroup({
 
@@ -49,6 +56,11 @@ export class ImageSelector {
 
   }
 
+  onSelectImage(image:BlogImage){
+    this.imageSelectorService.selectImage(image.url);
+    this.hideImageSelector();
+  }
+
   onSubmit(){
     if(this.imageSelectorUploadGroup.valid){
       const formRawValue=this.imageSelectorUploadGroup.getRawValue();
@@ -56,7 +68,8 @@ export class ImageSelector {
       this.imageSelectorService.uploadImage(formRawValue.file!,formRawValue.name,formRawValue.title)
       .subscribe({
         next:(response)=>{
-          console.log(response);
+          this.id.set(response.id);
+          this.imageSelectorUploadGroup.reset();
         },
         error:(error)=>{
           console.error('Upload Image Error:', error);
@@ -69,5 +82,7 @@ export class ImageSelector {
 
     }
   }
+
+  
 
 }

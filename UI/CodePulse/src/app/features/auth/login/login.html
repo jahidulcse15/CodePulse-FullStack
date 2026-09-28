@@ -1,0 +1,112 @@
+<div class="login-page">
+
+    <div class="login-container">
+
+        <div class="login-form-section">
+
+            <div class="login-form-wrapper">
+
+                <!-- Header -->
+                <div class="login-header">
+                   
+
+                    <span class="welcome-text">
+                        Welcome back
+                    </span>
+
+                    <h2>Sign in to your account</h2>
+
+                    <p>
+                        Enter your credentials to continue.
+                    </p>
+                </div>
+
+
+                <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmit()">
+
+                    <!-- Email -->
+                    <div class="input-group-custom">
+
+                        <label for="email">
+                            Email address
+                        </label>
+
+                        <input
+                            id="email"
+                            type="email"
+                            placeholder="you@example.com"
+                        />
+
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="input-group-custom">
+
+                        <div class="password-label">
+                            <label for="password">
+                                Password
+                            </label>
+
+                            <a href="#">
+                                Forgot password?
+                            </a>
+                        </div>
+
+                        <input
+                            id="password"
+                            type="password"
+                            placeholder="Enter your password"
+                        />
+
+                    </div>
+
+
+                    <!-- Remember -->
+                    <div class="remember-row">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="remember"
+                            />
+
+                            <span>Remember me</span>
+
+                        </label>
+
+                    </div>
+
+
+                    <!-- Login -->
+                    <button
+                        type="submit"
+                        class="login-button"
+                    >
+                        Sign In
+                    </button>
+
+                </form>
+
+
+                <!-- Register -->
+                <div class="register-text">
+
+                    <span>
+                        Don't have an account?
+                    </span>
+
+                    <a routerLink="/register">
+                        Create an account
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

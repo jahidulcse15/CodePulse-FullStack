@@ -32,4 +32,12 @@ export class BlogPostService {
     deleteBlogPost(id:string):Observable<BlogPost>{
         return this.http.delete<BlogPost>(`${this.apiBaseUrl}/api/blogposts/${id}`);
     }
+
+    getBlogPostByUrlHandle(
+  urlHandle: InputSignal<string | undefined>
+): HttpResourceRef<BlogPost | undefined> {
+  return httpResource<BlogPost>(
+    () => `${this.apiBaseUrl}/api/blogposts/${urlHandle()}`
+  );
+}
 }

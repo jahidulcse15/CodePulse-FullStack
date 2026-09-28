@@ -32,7 +32,9 @@
         </div>
 
          <div class="mb-3">
-            <label class="form-label">Feature Image URL</label>
+            <label class="form-label">Feature Image URL
+                <button (click)="openImageSelector()" class="btn btn-light" type="button">Select Images</button>
+            </label>
 
             @if(addBlogPostForm.controls.featureImageUrl.getRawValue()){
                 <div>

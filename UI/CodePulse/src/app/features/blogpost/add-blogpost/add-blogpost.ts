@@ -6,6 +6,7 @@ import { form } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 import { MarkdownComponent } from 'ngx-markdown';
 import { CategoryService } from '../../category/services/category-service';
+import { ImageSelectorService } from '../../../shared/services/image-selector-service';
 
 @Component({
   imports: [ReactiveFormsModule,MarkdownComponent],
@@ -18,6 +19,7 @@ export class AddBlogpost {
 
   blogpostService=inject(BlogPostService)
   categoryService=inject(CategoryService);
+  imageSelectorService=inject(ImageSelectorService);
   router=inject(Router);
 
   private categoryResourseRef=this.categoryService.getAllCategories();
@@ -88,6 +90,10 @@ export class AddBlogpost {
       }
     });
 
+  }
+
+  openImageSelector(){
+    ;
   }
 
 }

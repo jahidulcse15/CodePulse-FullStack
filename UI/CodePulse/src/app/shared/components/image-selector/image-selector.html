@@ -9,7 +9,31 @@
                 <div class="card-body">
                     <div class="d-flex flex-md-row flex-sm-col flex-wrap">
                         <div class="col-8 p-4">
+                            @if(isLoading()){
+                                <p>isLoading...</p>
+                            }
+                            @else{
+                                <div class="d-flex flex-wrap overflow-auto"
+     style="max-height: calc(100vh - 300px);">
 
+    @for(image of images(); track image.id) {
+        <div (click)="onSelectImage(image)" role="button" class="p-3 d-flex flex-column align-items-center"
+             style="width: 150px;">
+
+            <img
+                [src]="image.url"
+                [alt]="image.title"
+                class="img-thumbnail"
+                style="width: 120px; height: 100px; object-fit: cover;">
+
+            <span class="text-center mt-2 text-truncate w-100">
+                {{ image.title }}
+            </span>
+
+        </div>
+    }
+</div>
+                            }
                         </div>
                         <div class="col-4 p-4 bg-light">
                             <h3>Upload Image</h3>
