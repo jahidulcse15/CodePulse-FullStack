@@ -1,8 +1,10 @@
 ﻿using CodePulse.API.Models.DTO;
 using CodePulse.API.Repositories.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CodePulse.API.Controllers
 {
@@ -47,7 +49,10 @@ namespace CodePulse.API.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Ok("register successfully.");
+                    return Ok(new
+                    {
+                        message = "register successfully."
+                    });
                 }
             }
 
@@ -92,11 +97,54 @@ namespace CodePulse.API.Controllers
             var response = new LoginResponseDto
             {
                 Email=existsUser.Email,
-                Tokens=token,
                 Roles=roles
+            };
+
+            Response.Cookies.Append("access_token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddMinutes(15)
+            });
+
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("me")]
+        public async Task<IActionResult> UserDetails()
+        {
+            if (User.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            var response = new LoginResponseDto
+            {
+                Email=User.FindFirst(ClaimTypes.Email)?.Value,
+                Roles=User.FindAll(ClaimTypes.Role).Select(x=>x.Value).ToList()
             };
 
             return Ok(response);
         }
+
+
+        [HttpPost]
+        [Route("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Append("access_token", "", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTime.UtcNow.AddDays(-1)
+            });
+
+            return Ok();
+        }
+
     }
 }
