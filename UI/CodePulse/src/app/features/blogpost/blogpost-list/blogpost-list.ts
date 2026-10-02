@@ -16,4 +16,7 @@ export class BlogpostList {
   isLoading=this.getAllBlogPostRef.isLoading;
   error=this.getAllBlogPostRef.error;
   response=this.getAllBlogPostRef.value;
+
+  statusCode=this.getAllBlogPostRef.statusCode;
+
 }

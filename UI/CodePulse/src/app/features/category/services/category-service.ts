@@ -45,7 +45,9 @@ export class CategoryService {
   this.http
     .put<void>(
       `${this.apiBaseUrl}/api/categories/${id}`,
-      updateCategoryRequestDto
+      updateCategoryRequestDto,{
+        withCredentials:true
+      }
     )
     .subscribe({
       next: () => {

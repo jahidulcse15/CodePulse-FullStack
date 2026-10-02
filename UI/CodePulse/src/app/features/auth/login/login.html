@@ -35,7 +35,12 @@
                             id="email"
                             type="email"
                             placeholder="you@example.com"
+                            formControlName="email"
                         />
+
+                        @if(loginFormGroup.get('email')?.touched && loginFormGroup.get('email')?.hasError('required')) {
+                            <p class="small text-danger">email is required.</p>
+                        }
 
                     </div>
 
@@ -48,22 +53,25 @@
                                 Password
                             </label>
 
-                            <a href="#">
-                                Forgot password?
-                            </a>
                         </div>
 
                         <input
                             id="password"
                             type="password"
                             placeholder="Enter your password"
+
+                            formControlName="password"
                         />
+
+                        @if(loginFormGroup.get('password')?.touched && loginFormGroup.get('password')?.hasError('required')) {
+                            <p class="small text-danger">email is required.</p>
+                        }
 
                     </div>
 
 
                     <!-- Remember -->
-                    <div class="remember-row">
+                    <div class="remember-row input-group-custom">
 
                         <label class="remember">
 
@@ -73,6 +81,9 @@
                             />
 
                             <span>Remember me</span>
+                            <a class="forgetpassword" href="#">
+                                Forgot password?
+                            </a>
 
                         </label>
 

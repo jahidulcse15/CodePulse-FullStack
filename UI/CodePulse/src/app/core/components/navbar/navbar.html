@@ -18,28 +18,38 @@
           <a class="nav-link active" aria-current="page" href="#">Home</a>
         </li>
 
+        @if (authServices.user() && authServices.user()?.roles?.includes("writer")) {
+
+            <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" [routerLink]="['admin', 'categories']">Categories</a></li>
+              <li><a class="dropdown-item" [routerLink]="['admin', 'blogposts']">Blog Posts</a></li>
+            </ul>
+          </li>
+
+        }
        
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Admin
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" [routerLink]="['admin', 'categories']">Categories</a></li>
-            <li><a class="dropdown-item" [routerLink]="['admin', 'blogposts']">Blog Posts</a></li>
-          </ul>
-        </li>
+        
         
       </ul>
 
-      <div class="d-flex gap-3">
-        <a [routerLink]="['/login']" class="btn btn-outline-primary">Login</a>
-        <a [routerLink]="['/register']" class="btn btn-primary">Register</a>
+      <div class="d-flex gap-3 align-items-center">
+        @if(authServices.user()){
+          <span>{{authServices.user()?.email}}</span>
+          <button (click)="onLogout()" type="button" class="btn btn-primary">Logout</button>
+        }@else{
+          <a [routerLink]="['/login']" class="btn btn-outline-primary">Login</a>
+          <a [routerLink]="['/register']" class="btn btn-primary">Register</a>
+        }
       </div>
       
     </div>
